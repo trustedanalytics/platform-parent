@@ -14,6 +14,7 @@
         <module>cf-client</module>
         <module>user-management</module>
         <module>hadoop-utils</module>
+        <module>hadoop-spring-utils</module>
         <module>object-store</module>
         <module>metadata-parser</module>
         <module>data-acquisition</module>
@@ -24,7 +25,6 @@
         <module>router-metrics-provider</module>
         <module>service-catalog</module>
         <module>hadoop-admin-tools</module>
-        <module>hadoop-spring-utils</module>
         <module>hdfs-broker</module>
         <module>broker-store</module>
         <module>file-server</module>
