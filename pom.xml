@@ -25,9 +25,8 @@
         <module>router-metrics-provider</module>
         <module>service-catalog</module>
         <module>hadoop-admin-tools</module>
-        <module>hdfs-broker</module>
         <module>broker-store</module>
-        <module>file-server</module>
+        <module>hdfs-broker</module>
         <module>latest-events-service</module>
     </modules>
 </project>
