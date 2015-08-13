@@ -1,0 +1,79 @@
+[submodule "spring-project-template"]
+	path = spring-project-template
+	url = git@github.com:trustedanalytics/spring-project-template.git
+	branch = master
+[submodule "console"]
+	path = console
+	url = git@github.com:trustedanalytics/console.git
+	branch = master
+[submodule "cf-client"]
+	path = cf-client
+	url = git@github.com:trustedanalytics/cf-client.git
+	branch = master
+[submodule "project-template"]
+	path = project-template
+	url = git@github.com:trustedanalytics/project-template.git
+	branch = master
+[submodule "hadoop-utils"]
+	path = hadoop-utils
+	url = git@github.com:trustedanalytics/hadoop-utils.git
+	branch = master
+[submodule "object-store"]
+	path = object-store
+	url = git@github.com:trustedanalytics/object-store.git
+	branch = master
+[submodule "metadata-parser"]
+	path = metadata-parser
+	url = git@github.com:trustedanalytics/metadata-parser.git
+	branch = master
+[submodule "data-acquisition"]
+	path = data-acquisition
+	url = git@github.com:trustedanalytics/data-acquisition.git
+	branch = master
+[submodule "dataset-publisher"]
+	path = dataset-publisher
+	url = git@github.com:trustedanalytics/dataset-publisher.git
+	branch = master
+[submodule "downloader"]
+	path = downloader
+	url = git@github.com:trustedanalytics/downloader.git
+	branch = master
+[submodule "metrics-provider"]
+	path = metrics-provider
+	url = git@github.com:trustedanalytics/metrics-provider.git
+	branch = master
+[submodule "platform-context"]
+	path = platform-context
+	url = git@github.com:trustedanalytics/platform-context.git
+	branch = master
+[submodule "router-metrics-provider"]
+	path = router-metrics-provider
+	url = git@github.com:trustedanalytics/router-metrics-provider.git
+	branch = master
+[submodule "service-catalog"]
+	path = service-catalog
+	url = git@github.com:trustedanalytics/service-catalog.git
+	branch = master
+[submodule "user-management"]
+	path = user-management
+	url = git@github.com:trustedanalytics/user-management.git
+	branch = master
+[submodule "hadoop-admin-tools"]
+	path = hadoop-admin-tools
+	url = git@github.com:trustedanalytics/hadoop-admin-tools.git
+	branch = master
+[submodule "hadoop-spring-utils"]
+	path = hadoop-spring-utils
+	url = git@github.com:trustedanalytics/hadoop-spring-utils.git
+	branch = master
+[submodule "hdfs-broker"]
+	path = hdfs-broker
+	url = git@github.com:trustedanalytics/hdfs-broker.git
+	branch = master
+[submodule "broker-store"]
+	path = broker-store
+	url = git@github.com:trustedanalytics/broker-store.git
+	branch = master
+[submodule "trustedanalytics-cloud-parent"]
+	path = trustedanalytics-cloud-parent
+	url = git@github.com:trustedanalytics/trustedanalytics-cloud-parent.git

@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.trustedanalytics</groupId>
+    <artifactId>platform-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>0.4.1-SNAPHOST</version>
+    <name>Parent project for platform components</name>
+    
+    <modules>
+        <module>console</module>
+        <module>cf-client</module>
+        <module>user-management</module>
+        <module>hadoop-utils</module>
+        <module>object-store</module>
+        <module>metadata-parser</module>
+        <module>data-acquisition</module>
+        <module>dataset-publisher</module>
+        <module>downloader</module>
+        <module>metrics-provider</module>
+        <module>platform-context</module>
+        <module>router-metrics-provider</module>
+        <module>service-catalog</module>
+        <module>hadoop-admin-tools</module>
+        <module>hadoop-spring-utils</module>
+        <module>hdfs-broker</module>
+        <module>broker-store</module>
+    </modules>
+</project>
