@@ -28,5 +28,7 @@
         <module>hadoop-spring-utils</module>
         <module>hdfs-broker</module>
         <module>broker-store</module>
+        <module>file-server</module>
+        <module>latest-events-service</module>
     </modules>
 </project>

@@ -77,3 +77,15 @@
 [submodule "trustedanalytics-cloud-parent"]
 	path = trustedanalytics-cloud-parent
 	url = git@github.com:trustedanalytics/trustedanalytics-cloud-parent.git
+[submodule "data-catalog"]
+	path = data-catalog
+	url = git@github.com:trustedanalytics/data-catalog.git
+[submodule "app-launcher-helper"]
+	path = app-launcher-helper
+	url = git@github.com:trustedanalytics/app-launcher-helper.git
+[submodule "latest-events-service"]
+	path = latest-events-service
+	url = git@github.com:trustedanalytics/latest-events-service.git
+[submodule "file-server"]
+	path = file-server
+	url = git@github.com:trustedanalytics/file-server.git
