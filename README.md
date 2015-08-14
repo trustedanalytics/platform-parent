@@ -1,9 +1,9 @@
 # platform-parent
-Project for building all platform components
+Project for building all project components.
 
 # Prerequisites
 
-In order to build all platform components artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml
+In order to build all components, artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,8 +70,9 @@ In order to build all platform components artifacts from Maven Central and from 
 
 
 # Steps to build:
- 1. Make sure both maven central and repo.spring.io repositories locations are set in you settings.xml file
- 1. clone project to local machine
- 1. run git submodule update --init --recursive on platform-parent project
- 1. run ./build-dependencies.sh
+ 1. Make sure that both Maven Central and repo.spring.io repositories' locations are set in your settings.xml file.
+ 1. Clone project to your local development machine.
+ 1. Run git submodule update --init --recursive on platform-parent project.
+ 1. Run ./build-dependencies.sh
 
+ 
