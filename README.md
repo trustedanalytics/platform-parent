@@ -72,7 +72,7 @@ In order to build all components, artifacts from Maven Central and from spring.i
 # Steps to build:
  1. Make sure that both Maven Central and repo.spring.io repositories' locations are set in your settings.xml file.
  1. Clone project to your local development machine.
- 1. Run git submodule update --init --recursive on platform-parent project.
- 1. Run ./build-dependencies.sh
+ 1. Run ```git submodule update --init --recursive``` on platform-parent project.
+ 1. Run ```./build-dependencies.sh```
 
  
