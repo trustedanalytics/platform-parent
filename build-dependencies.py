@@ -57,7 +57,7 @@ class JavaBuilder(Builder):
 
 class GoBuilder(Builder):        
     def __init__(self, name):
-        godep_path = '~/Godeps/_workspace/src/github.com/trustedanalytics/'
+        godep_path = os.path.join(os.environ["GOPATH"], 'src/github.com/trustedanalytics/')
         if not os.path.exists(godep_path):
             os.makedirs(godep_path)
         if not os.path.exists(os.path.join(godep_path, name)):
