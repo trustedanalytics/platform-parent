@@ -1,0 +1,126 @@
+---
+applications:
+- name: trustedanalytics-cloud-parent
+  language: java
+- name: spring-project-template
+  language: java
+- name: project-template
+  language: java
+- name: cf-client
+  language: java
+  items:
+  - "target/{name}.jar"
+- name: user-management
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: hadoop-utils
+  language: java
+  items:
+  - "target/{name}.jar"
+- name: hadoop-spring-utils
+  language: java
+  items:
+  - "target/{name}.jar"
+- name: object-store
+  language: java
+  items:
+  - "target/{name}.jar"
+- name: uploader
+  language: java
+  items:
+  - "target/{name}.jar"  
+- name: metadata-parser
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: data-acquisition
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: dataset-publisher
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: downloader
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: metrics-provider
+  language: java
+  items:
+  - manifest.yml
+  - target/
+- name: platform-context
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: router-metrics-provider
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: service-catalog
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: hadoop-admin-tools
+  language: java
+  items:
+  - "target/{name}.jar"
+- name: broker-store
+  language: java
+  skip_zip: true
+- name: broker-store/broker-store-commons
+  language: java
+  items:
+  - "target/{name}.jar"
+  skip_build: true
+- name: broker-store/hdfs-broker-store/
+  language: java
+  items:
+  - "target/{name}.jar"
+  skip_build: true
+- name: broker-store/zookeeper-broker-store/
+  language: java
+  items:
+  - "target/{name}.jar"
+  skip_build: true
+- name: hdfs-broker
+  language: java
+  items:
+  - target/
+- name: latest-events-service
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: app-launcher-helper
+  language: go
+  items:
+  - .
+- name: console
+  language: console
+  items:
+  - .
+- name: data-catalog
+  language: python
+  items:
+  - data_catalog/
+  - vendor/
+  - manifest.yml
+  - requirements.txt
+  - runtime.txt
+- name: file-server
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+
