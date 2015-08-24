@@ -89,3 +89,7 @@
 [submodule "file-server"]
 	path = file-server
 	url = git@github.com:trustedanalytics/file-server.git
+[submodule "uploader"]
+	path = uploader
+	url = git@github.com:trustedanalytics/uploader.git
+	branch = master
