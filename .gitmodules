@@ -93,3 +93,15 @@
 	path = uploader
 	url = git@github.com:trustedanalytics/uploader.git
 	branch = master
+[submodule "hbase-broker"]
+	path = hbase-broker
+	url = git@github.com:trustedanalytics/hbase-broker.git
+	branch = master
+[submodule "yarn-broker"]
+	path = yarn-broker
+	url = git@github.com:trustedanalytics/yarn-broker.git
+	branch = master
+[submodule "gearpump-broker"]
+	path = gearpump-broker
+	url = git@github.com:intel-data/gearpump-broker.git
+	branch = master
