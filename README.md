@@ -1,9 +1,11 @@
 # platform-parent
-Project for building all project components.
+Project for building all platform components.
 
-# Prerequisites
+# Steps to build:
 
-In order to build all components, artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml
+In order to build all platform components artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml. You should copy it to your settings.xml file, which is included in ~/.m2/ catalog. Maven stores configuration files at this place. 
+
+If you already have your settings in settings.xml file, you should join profile from example below to your setting.xml file and set this profile as active.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -66,13 +68,10 @@ In order to build all components, artifacts from Maven Central and from spring.i
   </activeProfiles>
 </settings>
 ```
+ 1. Make sure both maven central and repo.spring.io repositories locations are set in you settings.xml file.
+ 1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki/wiki/Development-Environment-Setup) page.
+ 1. Clone platform-parent project to your local machine.
+ 1. Run command  ```git submodule update --init --recursive``` on platform-parent project.
+ 1. Install pyyaml running command ```sudo pip install pyyaml```.
+ 1. Run script using ```python build-dependencies.py```.
 
-
-
-# Steps to build:
- 1. Make sure that both Maven Central and repo.spring.io repositories' locations are set in your settings.xml file.
- 1. Clone project to your local development machine.
- 1. Run ```git submodule update --init --recursive``` on platform-parent project.
- 1. Run ```./build-dependencies.sh```
-
- 
