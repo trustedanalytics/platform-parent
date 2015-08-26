@@ -101,3 +101,6 @@
 	path = yarn-broker
 	url = git@github.com:trustedanalytics/yarn-broker.git
 	branch = master
+[submodule "worlds-simplest-service-broker"]
+	path = worlds-simplest-service-broker
+	url = git@github.com:cloudfoundry-community/worlds-simplest-service-broker.git
