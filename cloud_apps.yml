@@ -1,35 +1,14 @@
 ---
 applications:
-- name: trustedanalytics-cloud-parent
-  language: java
-- name: spring-project-template
-  language: java
-- name: project-template
-  language: java
-- name: cf-client
-  language: java
-  items:
-  - "target/{name}.jar"
 - name: user-management
   language: java
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: hadoop-utils
-  language: java
-  items:
-  - "target/{name}.jar"
-- name: hadoop-spring-utils
-  language: java
-  items:
-  - "target/{name}.jar"
-- name: object-store
-  language: java
-  items:
-  - "target/{name}.jar"
 - name: uploader
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"  
 - name: metadata-parser
   language: java
@@ -55,7 +34,7 @@ applications:
   language: java
   items:
   - manifest.yml
-  - target/
+  - "target/{name}.jar"
 - name: platform-context
   language: java
   items:
@@ -71,32 +50,11 @@ applications:
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: hadoop-admin-tools
-  language: java
-  items:
-  - "target/{name}.jar"
-- name: broker-store
-  language: java
-  skip_zip: true
-- name: broker-store/broker-store-commons
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
-- name: broker-store/hdfs-broker-store/
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
-- name: broker-store/zookeeper-broker-store/
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
 - name: hdfs-broker
   language: java
   items:
-  - target/
+  - manifest.yml
+  - "target/{name}.jar"
 - name: latest-events-service
   language: java
   items:
@@ -123,15 +81,22 @@ applications:
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: gearpump-broker
-  language: java
-  items:
-  - "target/{name}.jar"
 - name: hbase-broker
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"
 - name: yarn-broker
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"     
+- name: zookeeper-broker
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: worlds-simplest-service-broker
+  language: wssb
+  items:
+   - .
