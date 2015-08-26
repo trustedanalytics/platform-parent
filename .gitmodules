@@ -101,7 +101,3 @@
 	path = yarn-broker
 	url = git@github.com:trustedanalytics/yarn-broker.git
 	branch = master
-[submodule "gearpump-broker"]
-	path = gearpump-broker
-	url = git@github.com:intel-data/gearpump-broker.git
-	branch = master
