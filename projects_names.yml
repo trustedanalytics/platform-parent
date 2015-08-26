@@ -135,3 +135,7 @@ applications:
   language: java
   items:
   - "target/{name}.jar"     
+- name: worlds-simplest-service-broker
+  language: wssb
+  items:
+   - .

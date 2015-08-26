@@ -35,7 +35,10 @@ class Builder:
 
     def get_zip_name(self):
         pass
-
+  
+    def _create_package_path(self, name, version):
+        return "{}-{}".format(name, version), os.path.join(name, version)
+   
 class JavaBuilder(Builder):
     def __init__(self, name):
         Builder.__init__(self, name)
@@ -49,11 +52,12 @@ class JavaBuilder(Builder):
 
         if len(name.split('/')) == 1:
             version = ElementTree(file='pom.xml').findtext('{http://maven.apache.org/POM/4.0.0}version')
-            return name + '-' + version
+            pkg_name = name
         else:
             version = ElementTree(file='../pom.xml').findtext('{http://maven.apache.org/POM/4.0.0}version')
-            subproject_name = name.split('/')[-1]
-            return subproject_name + '-' + version
+            pkg_name = name.split('/')[-1]
+
+        return self._create_package_path(pkg_name, version)
 
 class GoBuilder(Builder):        
     def __init__(self, name):
@@ -73,7 +77,8 @@ class GoBuilder(Builder):
         config = ConfigParser.ConfigParser()
         config.read('.bumpversion.cfg')
         version = config.get('bumpversion', 'current_version')
-        return self.name + '-' + version
+        return self._create_package_path(self.name, version)
+
 
 class PythonBuilder(Builder):
     def __init__(self, name):
@@ -89,7 +94,7 @@ class PythonBuilder(Builder):
         config = ConfigParser.ConfigParser()
         config.read('.bumpversion.cfg')
         version = config.get('bumpversion', 'current_version')
-        return self.name + '-' + version
+        return self._create_package_path(self.name, version)
 
 
 
@@ -105,18 +110,28 @@ class ConsoleBuilder(Builder):
         with open('package.json') as f:
             package_json = json.load(f)
         version = package_json['version']
-        return self.name + '-' + version
+        return self._create_package_path(self.name, version)
 
+
+class WssbBuilder(GoBuilder):
+    def __init__(self, name):
+        GoBuilder.__init__(self, name)
+
+    def get_zip_name(self):
+        return "wssb", "."
 
 def load_app_yaml(path):
     with open(path, 'r') as stream:
         return yaml.load(stream)
 
 def create_zip_package(name, zip_name, path, items):
+    print path
+    
     if not os.path.exists(path):
         os.makedirs(path)
     if os.path.exists(os.path.join(path, zip_name + '.zip')):
         os.remove(os.path.join(path, zip_name + '.zip'))
+        
     zip_package = zipfile.ZipFile(os.path.join(path, zip_name + '.zip'), 'w')
     os.chdir(os.path.join(PLATFORM_PARENT_PATH, name))
 
@@ -137,8 +152,10 @@ def build_projects(project_names):
         'java': JavaBuilder,
         'go': GoBuilder,
         'python': PythonBuilder,
-        'console': ConsoleBuilder
+        'console': ConsoleBuilder,
+        'wssb' : WssbBuilder
     }
+
     for project in project_names['applications']:
         items = project["items"] if 'items' in project else None
         skip_zip = project["skip_zip"] if "skip_zip" in project else False
@@ -151,8 +168,8 @@ def build_projects(project_names):
 
         if not skip_zip:
             if items is not None:
-                zip_name = builder.get_zip_name()
-                create_zip_package(name, zip_name, os.path.join(PLATFORM_PARENT_PATH, TARGET_CATALOG_NAME), items)
+                zip_name, rel_path = builder.get_zip_name()
+                create_zip_package(name, zip_name, os.path.join(PLATFORM_PARENT_PATH, TARGET_CATALOG_NAME, rel_path), items)
 
 
 def main():
