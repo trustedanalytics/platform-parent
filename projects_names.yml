@@ -123,10 +123,6 @@ applications:
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: gearpump-broker
-  language: java
-  items:
-  - "target/{name}.jar"
 - name: hbase-broker
   language: java
   items:

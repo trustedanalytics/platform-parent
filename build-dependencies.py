@@ -25,6 +25,7 @@ import json
 TARGET_CATALOG_NAME = 'PACKAGES'
 YAML_FILE_PATH = 'projects_names.yml'
 PLATFORM_PARENT_PATH = os.getcwd()
+DESTINATION_PATH = '/tmp'
 
 class Builder:
     def __init__(self, name):
@@ -125,8 +126,6 @@ def load_app_yaml(path):
         return yaml.load(stream)
 
 def create_zip_package(name, zip_name, path, items):
-    print path
-    
     if not os.path.exists(path):
         os.makedirs(path)
     if os.path.exists(os.path.join(path, zip_name + '.zip')):
@@ -166,10 +165,9 @@ def build_projects(project_names):
         if not skip_build:
             builder.build()
 
-        if not skip_zip:
-            if items is not None:
-                zip_name, rel_path = builder.get_zip_name()
-                create_zip_package(name, zip_name, os.path.join(PLATFORM_PARENT_PATH, TARGET_CATALOG_NAME, rel_path), items)
+        if not skip_zip and items is not None:
+            zip_name, rel_path = builder.get_zip_name()
+            create_zip_package(name, zip_name, os.path.join(DESTINATION_PATH, TARGET_CATALOG_NAME, rel_path), items)
 
 
 def main():
