@@ -55,7 +55,7 @@ applications:
   language: java
   items:
   - manifest.yml
-  - target/
+  - "target/{name}.jar"
 - name: platform-context
   language: java
   items:
@@ -96,7 +96,7 @@ applications:
 - name: hdfs-broker
   language: java
   items:
-  - target/
+  - "target/{name}.jar"
 - name: latest-events-service
   language: java
   items:
