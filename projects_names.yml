@@ -4,28 +4,10 @@ applications:
   language: java
 - name: spring-project-template
   language: java
-- name: project-template
-  language: java
-- name: cf-client
-  language: java
-  items:
-  - "target/{name}.jar"
 - name: user-management
   language: java
   items:
   - manifest.yml
-  - "target/{name}.jar"
-- name: hadoop-utils
-  language: java
-  items:
-  - "target/{name}.jar"
-- name: hadoop-spring-utils
-  language: java
-  items:
-  - "target/{name}.jar"
-- name: object-store
-  language: java
-  items:
   - "target/{name}.jar"
 - name: uploader
   language: java
@@ -70,10 +52,6 @@ applications:
   language: java
   items:
   - manifest.yml
-  - "target/{name}.jar"
-- name: hadoop-admin-tools
-  language: java
-  items:
   - "target/{name}.jar"
 - name: broker-store
   language: java
