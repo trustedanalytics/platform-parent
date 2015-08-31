@@ -1,7 +1,5 @@
 ---
 applications:
-- name: trustedanalytics-cloud-parent
-  language: java
 - name: spring-project-template
   language: java
 - name: user-management
