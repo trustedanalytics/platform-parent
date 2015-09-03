@@ -74,3 +74,7 @@
 	path = worlds-simplest-service-broker
 	url = git@github.com:trustedanalytics/worlds-simplest-service-broker.git
     branch = master
+[submodule "zookeeper-broker"]
+	path = zookeeper-broker
+	url = git@github.com:trustedanalytics/zookeeper-broker.git
+	branch = master
