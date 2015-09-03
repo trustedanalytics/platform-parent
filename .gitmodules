@@ -42,10 +42,6 @@
 	path = hdfs-broker
 	url = git@github.com:trustedanalytics/hdfs-broker.git
 	branch = master
-[submodule "broker-store"]
-	path = broker-store
-	url = git@github.com:trustedanalytics/broker-store.git
-	branch = master
 [submodule "data-catalog"]
 	path = data-catalog
 	url = git@github.com:trustedanalytics/data-catalog.git
