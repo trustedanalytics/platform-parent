@@ -49,24 +49,6 @@ applications:
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: broker-store
-  language: java
-  skip_zip: true
-- name: broker-store/broker-store-commons
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
-- name: broker-store/hdfs-broker-store/
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
-- name: broker-store/zookeeper-broker-store/
-  language: java
-  items:
-  - "target/{name}.jar"
-  skip_build: true
 - name: hdfs-broker
   language: java
   items:
@@ -105,6 +87,10 @@ applications:
   language: java
   items:
   - "target/{name}.jar"     
+- name: zookeeper-broker
+  language: java
+  items:
+  - "target/{name}.jar"
 - name: worlds-simplest-service-broker
   language: wssb
   items:
