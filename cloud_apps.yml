@@ -8,6 +8,7 @@ applications:
 - name: uploader
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"  
 - name: metadata-parser
   language: java
@@ -52,6 +53,7 @@ applications:
 - name: hdfs-broker
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"
 - name: latest-events-service
   language: java
@@ -82,10 +84,12 @@ applications:
 - name: hbase-broker
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"
 - name: yarn-broker
   language: java
   items:
+  - manifest.yml
   - "target/{name}.jar"     
 - name: zookeeper-broker
   language: java

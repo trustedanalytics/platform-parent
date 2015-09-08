@@ -23,7 +23,7 @@ import ConfigParser
 import json
 
 TARGET_CATALOG_NAME = 'PACKAGES'
-YAML_FILE_PATH = 'projects_names.yml'
+YAML_FILE_PATH = 'cloud_apps.yml'
 PLATFORM_PARENT_PATH = os.getcwd()
 DESTINATION_PATH = '/tmp'
 
