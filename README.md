@@ -75,3 +75,10 @@ If you already have your settings in settings.xml file, you should join profile 
  1. Install pyyaml running command ```sudo pip install pyyaml```.
  1. Run script using ```python build-dependencies.py```.
 
+
+The artifacts will be stored in ```/tmp/PACKAGES/``` directory. If you are using [cloudfoundry-mkappstack](https://github.com/trustedanalytics/cloudfoundry-mkappstack) to deploy platform, the path to the artifacts must be set. In order to do this, set the following values to ```artifact_pfx``` and ```afcturl``` fields in appstack.mk file:
+
+```
+artifact_pfx = file:///tmp/PACKAGES
+afcturl = $(artifact_pfx)/$(appname).zip
+```
