@@ -1,56 +1,14 @@
 ---
 applications:
-- name: user-management
-  language: java
+- name: application-broker
+  language: go
   items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: uploader
-  language: java
+  - .
+- name: worlds-simplest-service-broker
+  language: wssb
   items:
-  - manifest.yml
-  - "target/{name}.jar"  
-- name: metadata-parser
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: data-acquisition
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: dataset-publisher
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: downloader
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  - .
 - name: metrics-provider
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: platform-context
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: router-metrics-provider
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: service-catalog
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
-- name: hdfs-broker
   language: java
   items:
   - manifest.yml
@@ -60,12 +18,46 @@ applications:
   items:
   - manifest.yml
   - "target/{name}.jar"
+- name: console
+  language: console
+  items:
+  - .
+- name: service-catalog
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: service-exposer
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
 - name: app-launcher-helper
   language: go
   items:
   - .
-- name: console
-  language: console
+- name: user-management
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: platform-operations
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: model-catalog
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: platform-context
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: gateway
+  language: go
   items:
   - .
 - name: data-catalog
@@ -76,7 +68,17 @@ applications:
   - manifest.yml
   - requirements.txt
   - runtime.txt
-- name: file-server
+- name: dataset-publisher
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: router-metrics-provider
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: data-acquisition
   language: java
   items:
   - manifest.yml
@@ -90,13 +92,29 @@ applications:
   language: java
   items:
   - manifest.yml
-  - "target/{name}.jar"     
+  - "target/{name}.jar"
+- name: downloader
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: uploader
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
+- name: metadata-parser
+  language: java
+  items:
+  - manifest.yml
+  - "target/{name}.jar"
 - name: zookeeper-broker
   language: java
   items:
   - manifest.yml
   - "target/{name}.jar"
-- name: worlds-simplest-service-broker
-  language: wssb
+- name: hdfs-broker
+  language: java
   items:
-   - .
+  - manifest.yml
+  - "target/{name}.jar"

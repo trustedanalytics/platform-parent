@@ -20,11 +20,15 @@ import os
 import zipfile
 from xml.etree.ElementTree import ElementTree
 
+################# Custom variables #####################
 TARGET_CATALOG_NAME = 'PACKAGES'
+RELEASE_TAG = None
 YAML_FILE_PATH = 'cloud_apps.yml'
 PLATFORM_PARENT_PATH = os.getcwd()
-DESTINATION_PATH = '/tmp'
-
+DESTINATION_ABS_PATH = '/tmp'
+TAP_REPOS_URL = 'https://github.com/trustedanalytics/'
+ATK_REPOS_URL = ''
+########################################################
 
 class Builder:
     def __init__(self, name):
@@ -63,10 +67,7 @@ class PythonBuilder(Builder):
         Builder.__init__(self, name)
     
     def build(self):
-        if not os.path.exists('vendor'):
-            os.makedirs('vendor')
-        subprocess.check_call(['pip', 'install', '--download', 'vendor', '-r', 'requirements.txt'])
-        subprocess.check_call(['tox', '-r'])
+        subprocess.check_call(['sh', 'cf_build.sh'])
 
 
 class ConsoleBuilder(Builder):
@@ -87,11 +88,11 @@ def load_app_yaml(path):
         return yaml.load(stream)
 
 def create_zip_package(zip_name, path, items):
+    print("############### Creating {0} package ###############".format(zip_name))
     if not os.path.exists(path):
         os.makedirs(path)
     if os.path.exists(os.path.join(path, zip_name + '.zip')):
         os.remove(os.path.join(path, zip_name + '.zip'))
-        
     zip_package = zipfile.ZipFile(os.path.join(path, zip_name + '.zip'), 'w')
     os.chdir(os.path.join(PLATFORM_PARENT_PATH, zip_name))
 
@@ -109,7 +110,26 @@ def create_zip_package(zip_name, path, items):
 
     zip_package.close()
     os.chdir(PLATFORM_PARENT_PATH)
+    print("############### Package for {0} has been created ###############".format(zip_name))
 
+def download_project_sources(app_name, is_atk=False, release_tag=None):
+    if os.path.exists(app_name):
+        print('############### Updating sources for {0} project ###############'.format(app_name))
+        os.chdir(os.path.join(PLATFORM_PARENT_PATH, app_name))
+        subprocess.check_call(['git', 'checkout', 'master'])
+        subprocess.check_call(['git', 'pull'])
+        os.chdir(PLATFORM_PARENT_PATH)
+    else:
+        print('############### Downloading {0} project sources ###############'.format(app_name))
+        clone_path_base = ATK_REPOS_URL if is_atk else TAP_REPOS_URL
+        clone_path = os.path.join(clone_path_base, app_name)
+        subprocess.check_call(['git', 'clone', clone_path])
+    if RELEASE_TAG:
+        print('############### Setting release tag {0} for {1} project sources ###############'.format(RELEASE_TAG, app_name))
+        try:
+            subprocess.check_call(['git', 'checkout', RELEASE_TAG])
+        except Exception:
+            print('############### Cannot set release tag {0} for {1} project sources ###############'.format(RELEASE_TAG, app_name))
 
 def build_projects(project_names):
     builders = {
@@ -121,6 +141,7 @@ def build_projects(project_names):
     }
 
     for project in project_names['applications']:
+        download_project_sources(project['name'], release_tag=RELEASE_TAG)
         items = project["items"] if 'items' in project else None
         name = project['name']
         language = project['language']
@@ -128,7 +149,7 @@ def build_projects(project_names):
         builder.build()
 
         if items is not None:
-            create_zip_package(name, os.path.join(DESTINATION_PATH, TARGET_CATALOG_NAME), items)
+            create_zip_package(name, os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME), items)
 
 
 def main():
