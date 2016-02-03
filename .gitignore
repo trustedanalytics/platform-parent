@@ -1,1 +1,4 @@
 /PACKAGES/
+.idea/
+logs/
+*.tar.gz

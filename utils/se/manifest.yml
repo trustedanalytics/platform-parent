@@ -1,0 +1,12 @@
+---
+applications:
+- name: scoring-engine
+  command: bin/scoring-server.sh
+  memory: 1G
+  disk_quota: 1G
+  timeout: 180
+  instances: 1
+  services:
+    - hdfs-for-atk
+  env:
+    VERSION: "<version>"

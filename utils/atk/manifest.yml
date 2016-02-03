@@ -1,0 +1,16 @@
+---
+applications:
+- name: atk
+  memory: 2048M
+  disk_quota: 2048M
+  timeout: 180
+  instances: 1
+  services:
+    - postgres-for-atk
+    - hdfs-for-atk
+    - hbase-for-atk
+    - yarn-for-atk
+    - mysql-for-atk
+    - zookeeper-for-atk
+  env:
+    VERSION: "<version>"

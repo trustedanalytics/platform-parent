@@ -1,67 +1,47 @@
 ---
 applications:
+# example:
+#
+# - name: <app_name> | Projects name using on Github, zip will be created with this name;
+#   builder: <go|java|wssb|console|python> | Kind of builder
+#   items: | Elements from projects catalog which should be added to the zip
+#   - file_1
+#   - catalog_1/
+#   snapshot: <branch|commit|tag> | Building determined version of sources (Optional)
+#   url: <url> | Specified sources address (Optional)
+#   zip_name: <name> | name of zip package without extension, for instance 'wssb' (Optional)
+#
+
 - name: application-broker
-  language: go
-  items:
-  - .
+  builder: go
 - name: worlds-simplest-service-broker
-  language: wssb
-  items:
-  - .
+  builder: wssb
+  url: https://github.com/trustedanalytics/worlds-simplest-service-broker
+  zip_name: wssb
 - name: metrics-provider
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: latest-events-service
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: console
-  language: console
-  items:
-  - .
+  builder: console
 - name: service-catalog
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: service-exposer
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: app-launcher-helper
-  language: go
-  items:
-  - .
+  builder: go
 - name: user-management
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: platform-operations
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: model-catalog
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: platform-context
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: gateway
-  language: go
-  items:
-  - .
+  builder: go
 - name: data-catalog
-  language: python
+  builder: python
   items:
   - data_catalog/
   - vendor/
@@ -69,52 +49,41 @@ applications:
   - requirements.txt
   - runtime.txt
 - name: dataset-publisher
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: router-metrics-provider
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: data-acquisition
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: hbase-broker
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: yarn-broker
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: downloader
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: uploader
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: metadata-parser
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: zookeeper-broker
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
 - name: hdfs-broker
-  language: java
-  items:
-  - manifest.yml
-  - "target/{name}.jar"
+  builder: java
+- name: gearpump-broker
+  builder: gearpump
+- name: se
+  builder: atk
+  zip_name: se
+  tar_name: trustedanalytics-scoring.tar.gz
+- name: atk
+  builder: atk
+  tar_name: trustedanalytics.tar.gz
+- name: terraform-aws-intel
+  builder: tool
+- name: platform-appstack
+  builder: tool
+- name: cloudfoundry-mkappstack
+  builder: tool
+- name: terraform-openstack-intel
+  builder: tool
+- name: platform-ansible
+  builder: tool
