@@ -3,6 +3,13 @@ Project for building all platform components.
 
 # Steps to build:
 
+ 1. Make sure that repositories locations from the config file are set in you settings.xml file.
+ 1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki/wiki/Development-Environment-Setup) page.
+ 1. Clone platform-parent project to your local machine.
+ 1. Fill custom variables in build-dependencies.py file.
+ 1. Install pyyaml running command ```sudo pip install pyyaml```.
+ 1. Run script using  ```python build_dependencies.py``` in platform-parent directory.
+
 In order to build all platform components artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml. You should copy it to your settings.xml file, which is included in ~/.m2/ catalog. Maven stores configuration files at this place. 
 
 If you already have your settings in settings.xml file, you should join profile from example below to your setting.xml file and set this profile as active.
@@ -21,6 +28,10 @@ If you already have your settings in settings.xml file, you should join profile 
             <enabled>false</enabled>
           </snapshots>
         </repository> 
+        <repository>
+          <id>cloudera</id>
+          <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
         <repository>
           <snapshots>
             <enabled>false</enabled>
@@ -68,13 +79,6 @@ If you already have your settings in settings.xml file, you should join profile 
   </activeProfiles>
 </settings>
 ```
- 1. Make sure both maven central and repo.spring.io repositories locations are set in you settings.xml file.
- 1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki/wiki/Development-Environment-Setup) page.
- 1. Clone platform-parent project to your local machine.
- 1. Fill custom variables in build-dependencies.py file.
- 1. Install pyyaml running command ```sudo pip install pyyaml```.
- 1. Run script using  ```python build_dependencies.py``` in platform-parent directory.
-
 
 The artifacts will be stored in directory specified in custom variables. If you are using [cloudfoundry-mkappstack](https://github.com/trustedanalytics/cloudfoundry-mkappstack) to deploy platform, the path to the artifacts must be set. In order to do this, set the following values to ```artifact_pfx``` and ```afcturl``` fields in appstack.mk file:
 
