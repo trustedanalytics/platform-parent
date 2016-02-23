@@ -17,6 +17,7 @@
 import yaml
 import subprocess
 import os
+import json
 import zipfile
 from xml.etree.ElementTree import ElementTree
 import requests
@@ -172,10 +173,19 @@ class WssbBuilder(GoBuilder):
         GoBuilder.__init__(self, name)
 
 class AtkBuilder(Builder):
+
+    LATEST_VERSION = 'latest'
+
     def __init__(self, app_info):
         self.name = app_info['name']
         self.tar_name = app_info['tar_name']
         self.zip_name = app_info['zip_name'] if 'zip_name' in app_info else None
+        self.save_versions_catalog()
+
+    def save_versions_catalog(self):
+        versions_url = os.path.join(ATK_REPOS_URL, 'version.json')
+        response = requests.get(versions_url)
+        self._versions_catalog = json.loads(response.text)
 
     def download_project_sources(self, snapshot=None, url=None):
         self.url = url
@@ -183,8 +193,13 @@ class AtkBuilder(Builder):
 
     def download_tar_file(self, tar_name, version, dest_tar_path):
         self._local_tar_path = dest_tar_path
-        self._version = version if version.lower() != 'latest' else self.extract_version_for_latest()
-        download_url = os.path.join(self.url, version, 'archive', tar_name)
+        if version.lower() == self.LATEST_VERSION:
+            self._version_in_manifest = self._versions_catalog[self.LATEST_VERSION]['release']
+            catalog_name_in_path = self.LATEST_VERSION
+        else:
+            self._version_in_manifest = version
+            catalog_name_in_path = self._get_catalog_name_by_release_number(version)
+        download_url = os.path.join(self.url, catalog_name_in_path, 'binaries', tar_name)
         print('############### Downloading tar archive for {} app from {} in {} version ###############'
               .format(self.name, download_url, version))
         response = requests.get(download_url)
@@ -208,6 +223,8 @@ class AtkBuilder(Builder):
               .format(self.name, self._local_sources_path))
 
     def create_deployable_zip(self, path_for_zip, sources_path=None, extra_files_paths=None):
+        if not os.path.exists(path_for_zip):
+            os.makedirs(path_for_zip)
         print("############### Creating {0} package ###############".format(self.name))
         project_files_path = sources_path if sources_path else self._local_sources_path
         for extra_file_path in extra_files_paths:
@@ -216,7 +233,7 @@ class AtkBuilder(Builder):
                 app_manifest_path = os.path.join(project_files_path, ntpath.basename(extra_file_path))
                 with open(app_manifest_path, 'r') as f_stream:
                     manifest_yml = yaml.load(f_stream)
-                manifest_yml['applications'][0]['env']['VERSION'] = self._version
+                manifest_yml['applications'][0]['env']['VERSION'] = self._version_in_manifest
                 with open(app_manifest_path, 'w') as f_stream:
                     f_stream.write(yaml.safe_dump(manifest_yml))
 
@@ -231,10 +248,10 @@ class AtkBuilder(Builder):
         deployable_zip.close()
         print("############### Package for {0} has been created ###############".format(self.name))
 
-    def extract_version_for_latest(self):
-        latest_version_url = ATK_REPOS_URL + 'latest/version'
-        print('############### Getting version for latest {} ###############'.format(self.name))
-        return requests.get(latest_version_url).content.replace('\n', '')
+    def _get_catalog_name_by_release_number(self, release_number):
+        for key, value in self._versions_catalog.iteritems():
+            if value['release'] == int(release_number):
+                return key
 
 
 class GearpumpBrokerBuilder(JavaBuilder):
