@@ -279,14 +279,18 @@ class GearpumpBrokerBuilder(JavaBuilder):
     def build_gearpump_dashboard(self):
         print('############### Building gearpump-dashboard ###############')
         gearpump_tmp_data = os.path.join('/tmp', self.package_name)
+        gearpump_dashboard_artifact_path = os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps', 'gearpump-dashboard.zip')
+        if os.path.exists(gearpump_dashboard_artifact_path):
+            os.remove(gearpump_dashboard_artifact_path)
         with zipfile.ZipFile(self.gearpump_binaries_path) as gb:
             gb.extractall('/tmp')
         with open(self.build_log_path, 'a') as build_log, \
                 open(self.err_log_path, 'a') as err_log:
-            subprocess.check_call(['sh', os.path.join(PLATFORM_PARENT_PATH, self.name, 'scripts', 'prepare.sh'),
-                                   gearpump_tmp_data, gearpump_tmp_data], stdout=build_log, stderr=err_log)
+            subprocess.check_call(['./prepare.sh', gearpump_tmp_data, gearpump_tmp_data],
+                                  cwd=os.path.join(PLATFORM_PARENT_PATH, self.name, 'scripts'), stdout=build_log, stderr=err_log)
         try:
-            shutil.move(os.path.join(gearpump_tmp_data, 'target', 'gearpump-dashboard.zip'),
+            subprocess.check_call(['zip', 'gearpump-dashboard.zip', 'manifest.yml', 'target/gearpump-dashboard.zip'], cwd=gearpump_tmp_data)
+            shutil.move(os.path.join(gearpump_tmp_data, 'gearpump-dashboard.zip'),
                         os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps'))
             shutil.rmtree(gearpump_tmp_data)
         except Exception as e:
