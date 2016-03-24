@@ -19,15 +19,15 @@ import subprocess
 from builders.builder import Builder
 from lib.logger import LOGGER
 
-class PythonBuilder(Builder):
+class UniversalBuilder(Builder):
 
     def build(self):
-        LOGGER.info('Building {} project'.format(self.name))
+        LOGGER.info('Building %s project', self.name)
         with open(self.build_log_path, 'a') as build_log, \
                 open(self.err_log_path, 'a') as err_log:
             try:
-                subprocess.check_call(['sh', 'cf_build.sh'],
-                                      cwd=self.sources_path, stdout=build_log, stderr=err_log)
+                subprocess.check_call('./pack.sh', cwd=self.sources_path,
+                                      stdout=build_log, stderr=err_log)
             except Exception as e:
                 LOGGER.error('Cannot build {} project'.format(self.name))
                 raise e

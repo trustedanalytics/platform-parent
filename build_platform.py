@@ -14,16 +14,19 @@
 # limitations under the License.
 #
 
-import yaml
+import glob
 import multiprocessing
+import shutil
 import threading
+
+import yaml
 
 from Queue import Queue
 from builders.java_builder import JavaBuilder
 from builders.go_builder import GoBuilder
 from builders.wssb_builder import WssbBuilder
 from builders.tool_builder import ToolBuilder
-from builders.python_builder import PythonBuilder
+from builders.universal_builder import UniversalBuilder
 from builders.console_builder import ConsoleBuilder
 from builders.gearpumpbroker_builder import GearpumpBrokerBuilder
 from builders.atk_builder import AtkBuilder
@@ -32,12 +35,16 @@ from builders.constants import *
 # Reading number of processors due to creating threads per processor which runs subprocess commands
 CPU_CORES_COUNT = multiprocessing.cpu_count()
 
+TOOLS_OUTPUT_DIR = os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'tools')
+APPS_OUTPUT_DIR = os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps')
+
+
 def build_sources():
     builders = {
         'go': GoBuilder,
         'wssb': WssbBuilder,
         'tool': ToolBuilder,
-        'python': PythonBuilder,
+        'universal': UniversalBuilder,
         'java': JavaBuilder,
         'console': ConsoleBuilder,
         'gearpump': GearpumpBrokerBuilder,
@@ -49,9 +56,12 @@ def build_sources():
         if app['builder'] != 'atk':
             builder.download_project_sources(snapshot=RELEASE_TAG, url=os.path.join(TAP_REPOS_URL, app['name']))
             builder.build()
-            destination_zip_path = os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'tools') if app['builder'] == 'tool' \
-                else os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps')
-            builder.create_zip_package(destination_zip_path)
+            destination_zip_path = TOOLS_OUTPUT_DIR if app['builder'] == 'tool' else APPS_OUTPUT_DIR
+            if app['builder'] == 'universal':
+                zip_path = glob.glob('{0}/{0}*.zip'.format(app['name']))[0]
+                shutil.copy(zip_path, destination_zip_path)
+            else:
+                builder.create_zip_package(destination_zip_path)
         else:
             builder.download_project_sources(snapshot=ATK_VERSION, url=ATK_REPOS_URL)
             builder.build()
@@ -65,6 +75,11 @@ def load_app_yaml(path):
 apps_queue = Queue()
 
 def main():
+    if not os.path.exists(TOOLS_OUTPUT_DIR):
+        os.makedirs(TOOLS_OUTPUT_DIR)
+    if not os.path.exists(APPS_OUTPUT_DIR):
+        os.makedirs(APPS_OUTPUT_DIR)
+
     projects_names = load_app_yaml(APPS_YAML_FILE_PATH)
     for app in projects_names['applications']:
         apps_queue.put(app)

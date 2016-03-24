@@ -41,13 +41,7 @@ applications:
 - name: gateway
   builder: go
 - name: data-catalog
-  builder: python
-  items:
-  - data_catalog/
-  - vendor/
-  - manifest.yml
-  - requirements.txt
-  - runtime.txt
+  builder: universal
 - name: dataset-publisher
   builder: java
 - name: router-metrics-provider
