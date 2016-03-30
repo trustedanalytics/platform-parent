@@ -24,8 +24,6 @@ from builders.java_builder import JavaBuilder
 from builders.builder import Builder
 from builders.constants import GEARPUMP_BINARIES_URL
 from builders.constants import PLATFORM_PARENT_PATH
-from builders.constants import DESTINATION_ABS_PATH
-from builders.constants import TARGET_CATALOG_NAME
 from lib.logger import LOGGER
 
 class GearpumpBrokerBuilder(JavaBuilder):
@@ -60,10 +58,10 @@ class GearpumpBrokerBuilder(JavaBuilder):
                 raise e
         LOGGER.info('Gearpump binaries in version {} has been downloaded for {} project'.format(full_gearpump_binary_version, self.name))
 
-    def build_gearpump_dashboard(self):
+    def build_gearpump_dashboard(self, dest_path):
         LOGGER.info('Building gearpump-dashboard')
         gearpump_tmp_data = os.path.join('/tmp', self.package_name)
-        gearpump_dashboard_artifact_path = os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps', 'gearpump-dashboard.zip')
+        gearpump_dashboard_artifact_path = os.path.join(dest_path, 'gearpump-dashboard.zip')
         if os.path.exists(gearpump_dashboard_artifact_path):
             os.remove(gearpump_dashboard_artifact_path)
         try:
@@ -80,7 +78,7 @@ class GearpumpBrokerBuilder(JavaBuilder):
                 subprocess.check_call(['zip', 'gearpump-dashboard.zip', 'manifest.yml', 'target/gearpump-dashboard.zip'],
                                       cwd=gearpump_tmp_data, stdout=build_log, stderr=err_log)
             shutil.move(os.path.join(gearpump_tmp_data, 'gearpump-dashboard.zip'),
-                        os.path.join(DESTINATION_ABS_PATH, TARGET_CATALOG_NAME, 'apps'))
+                        os.path.join(dest_path))
             shutil.rmtree(gearpump_tmp_data)
         except Exception as e:
             LOGGER.error('Error in gearpump dashboard building')
@@ -89,4 +87,4 @@ class GearpumpBrokerBuilder(JavaBuilder):
 
     def create_zip_package(self, dest_path, zip_name=None, zip_items=None):
         JavaBuilder.create_zip_package(self, dest_path, zip_name=zip_name, zip_items=zip_items)
-        self.build_gearpump_dashboard()
+        self.build_gearpump_dashboard(dest_path)

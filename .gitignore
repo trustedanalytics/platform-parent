@@ -3,3 +3,4 @@
 logs/
 *.tar.gz
 *.pyc
+refs.txt

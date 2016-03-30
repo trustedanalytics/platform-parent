@@ -15,26 +15,18 @@
 #
 
 import os
-import yaml
-from lib.logger import LOGGER
+import multiprocessing
 
-# constants - change only for development
-PLATFORM_PARENT_PATH = os.getcwd()
+# Reading number of processors due to creating threads per processor which runs subprocess commands
+CPU_CORES_COUNT = multiprocessing.cpu_count()
+
 ATK_REPOS_URL = 'https://analytics-tool-kit.s3-us-west-2.amazonaws.com/public/weekly/regressed/'
 TAP_REPOS_URL = 'https://github.com/trustedanalytics/'
 GEARPUMP_BINARIES_URL = 'https://github.com/gearpump/gearpump/releases/download/{short_ver}/gearpump-{long_ver}.zip'
+
 LATEST_ATK_VERSION = 'latest'
+DEFAULT_ATK_VERSION = LATEST_ATK_VERSION
+
+PLATFORM_PARENT_PATH = os.getcwd()
 APPS_YAML_FILE_PATH = 'cloud_apps.yml'
-
-try:
-    with open(os.path.join(PLATFORM_PARENT_PATH, 'config.yml'), 'r') as stream:
-        user_conf = yaml.load(stream)
-except Exception as e:
-    LOGGER.error('Cannot read config.yml file.')
-    raise e
-
-# constants loaded from config.yml file
-ATK_VERSION = user_conf['ATK_VERSION']
-TARGET_CATALOG_NAME = user_conf['TARGET_CATALOG_NAME']
-DESTINATION_ABS_PATH = user_conf['DESTINATION_ABS_PATH']
-RELEASE_TAG = user_conf['RELEASE_TAG']
+DEFAULT_DESTINATION_PATH = '/tmp/TAP_PACKAGES'

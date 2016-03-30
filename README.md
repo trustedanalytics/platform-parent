@@ -6,9 +6,8 @@ Project for building all platform components.
  1. Make sure that repositories locations from the config file are set in you settings.xml file.
  1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki/wiki/Development-Environment-Setup) page.
  1. Clone platform-parent project to your local machine.
- 1. Fill the config.yml file.
  1. Install pyyaml running command ```sudo pip install pyyaml```.
- 1. Run script using ```python build_dependencies.py``` in platform-parent directory.
+ 1. Run script using ```python build_platform.py``` in platform-parent directory.
 
 In order to build all platform components artifacts from Maven Central and from spring.io artifact repository are required. Below you can find example of settings.xml. You should copy it to your settings.xml file, which is included in ~/.m2/ catalog. Maven stores configuration files at this place. 
 
@@ -86,6 +85,13 @@ The artifacts will be stored in directory specified in custom variables. If you 
 artifact_pfx = file:///tmp/PACKAGES
 afcturl = $(artifact_pfx)/$(appname).zip
 ```
+
+# Tips
+  1. ```python build_platform -r <path_to_refs_txt>``` Setting path for refs.txt file (specified versions of all projects).
+  1. ```python build_platform -s <project_name>:<id>``` You can build specified version of project. As ID you can provide commit ID or branch/release name.
+  1. ```python build_platform -d <path>``` Determines destination path.
+  1. ```python build_platform -t <tag>``` Determines release tag for TAP repositories (-s argument has higher priority.
+  1. ```python build_platform -a <version>``` Determines ATK components version.
 
 # Building from docker container:
 
