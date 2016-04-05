@@ -32,9 +32,9 @@ from builders.constants import LATEST_ATK_VERSION
 class AtkBuilder(Builder):
 
     def __init__(self, app_info):
-        self.name = app_info['name']
-        self.tar_name = app_info['tar_name']
-        self.zip_name = app_info['zip_name'] if 'zip_name' in app_info else None
+        self.name = app_info.get('name')
+        self.tar_name = app_info.get('tar_name')
+        self.zip_name = app_info.get('zip_name')
         self._save_versions_catalog()
 
     def _save_versions_catalog(self):

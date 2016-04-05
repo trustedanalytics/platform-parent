@@ -39,7 +39,7 @@ class JavaBuilder(Builder):
         LOGGER.info('Building {} project using maven has been finished'.format(self.name))
 
     def create_zip_package(self, dest_path, zip_name=None, zip_items=None):
-        LOGGER.info('Creating {} package for {} project'.format(zip_name, self.name))
+        LOGGER.info('Creating package for {} project'.format(self.name))
         try:
             self.version = ElementTree(file=os.path.join(self.sources_path, 'pom.xml')).findtext('{http://maven.apache.org/POM/4.0.0}version')
         except Exception as e:

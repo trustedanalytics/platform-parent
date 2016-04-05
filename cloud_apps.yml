@@ -3,7 +3,7 @@ applications:
 # example:
 #
 # - name: <app_name> | Projects name using on Github, zip will be created with this name;
-#   builder: <go|java|wssb|console|python> | Kind of builder
+#   builder: <go|java|wssb|console|python|tool|universal|atk|release_downloader> | Kind of builder
 #   items: | Elements from projects catalog which should be added to the zip
 #   - file_1
 #   - catalog_1/
@@ -62,6 +62,8 @@ applications:
   builder: java
 - name: hdfs-broker
   builder: java
+- name: h2o-broker
+  builder: java
 - name: gearpump-broker
   builder: gearpump
 - name: se
@@ -71,13 +73,24 @@ applications:
 - name: atk
   builder: atk
   tar_name: trustedanalytics.tar.gz
+- name: tap-java-buildpack
+  builder: release_downloader
+  snapshot: v3.4-7
 - name: terraform-aws-intel
-  builder: tool
-- name: platform-appstack
-  builder: tool
-- name: cloudfoundry-mkappstack
   builder: tool
 - name: terraform-openstack-intel
   builder: tool
 - name: platform-ansible
+  builder: tool
+- name: cf-boshworkspace
+  builder: tool
+- name: docker-services-boshworkspace
+  builder: tool
+- name: logsearch-workspace
+  builder: tool
+- name: apployer
+  builder: tool
+- name: platform-appstack
+  builder: tool
+- name: cloudfoundry-mkappstack
   builder: tool

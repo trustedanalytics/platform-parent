@@ -19,6 +19,7 @@ import shutil
 import threading
 import argparse
 import yaml
+import subprocess
 import builders.constants as constants
 
 from Queue import Queue
@@ -30,8 +31,11 @@ from builders.universal_builder import UniversalBuilder
 from builders.console_builder import ConsoleBuilder
 from builders.gearpumpbroker_builder import GearpumpBrokerBuilder
 from builders.atk_builder import AtkBuilder
+from builders.release_downloader import ReleaseDownloader
 from lib.logger import LOGGER
 
+threads = []
+LOCK = threading.Lock()
 
 def build_sources():
     builders = {
@@ -42,12 +46,15 @@ def build_sources():
         'java': JavaBuilder,
         'console': ConsoleBuilder,
         'gearpump': GearpumpBrokerBuilder,
-        'atk': AtkBuilder
+        'atk': AtkBuilder,
+        'release_downloader': ReleaseDownloader
     }
     while apps_queue.empty() is not True:
         app = apps_queue.get()
         builder = builders[app['builder']](app)
-        if app['builder'] != 'atk':
+        if app['builder'] == 'release_downloader':
+            builder.download_release_zip(apps_output_path)
+        elif app['builder'] != 'atk':
             builder.download_project_sources(snapshot=release_tag, url=os.path.join(constants.TAP_REPOS_URL, app['name']))
             builder.build()
             destination_zip_path = tools_output_path if app['builder'] == 'tool' else apps_output_path
@@ -56,6 +63,9 @@ def build_sources():
                 shutil.copy(zip_path, destination_zip_path)
             else:
                 builder.create_zip_package(destination_zip_path)
+            LOCK.acquire()
+            refs_summary[builder.name] = builder.ref
+            LOCK.release()
         else:
             builder.download_project_sources(snapshot=atk_version, url=constants.ATK_REPOS_URL)
             builder.build()
@@ -64,6 +74,13 @@ def build_sources():
 def load_app_yaml(path):
     with open(path, 'r') as stream:
         return yaml.load(stream)
+
+def run_apployer_expand():
+    apployer_repo_path = os.path.join(constants.PLATFORM_PARENT_PATH, 'apployer')
+    subprocess.check_call(['tox', '-r'], cwd=apployer_repo_path)
+    subprocess.check_call([os.path.join('.tox', 'py27', 'bin', 'apployer'),
+                           'expand', constants.PLATFORM_PARENT_PATH], cwd=apployer_repo_path)
+    subprocess.check_call(['mv', os.path.join(apployer_repo_path, 'expanded_appstack.yml'), files_output_path], cwd=constants.PLATFORM_PARENT_PATH)
 
 apps_queue = Queue()
 
@@ -80,10 +97,12 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    global tools_output_path, apps_output_path, release_tag, atk_version, destination_path
+    global tools_output_path, apps_output_path, files_output_path, release_tag, atk_version, destination_path, refs_summary
+    refs_summary = dict()
+
     args = parse_args()
 
-    refs_txt_file = dict()
+    input_refs_file = dict()
     if args.refs_txt:
         try:
             with open(args.refs_txt, 'r') as stream:
@@ -91,24 +110,25 @@ def main():
             for item in refs_txt_content:
                 item = item.split()
                 if len(item):
-                    refs_txt_file[item[0]] = item[1]
+                    input_refs_file[item[0]] = item[1]
         except Exception:
             LOGGER.error('Cannot open refs.txt file.')
 
     if args.spec_version:
         for ver in args.spec_version:
             item = ver.split(':')
-            refs_txt_file[item[0]] = item[1]
+            input_refs_file[item[0]] = item[1]
 
     projects_names = load_app_yaml(constants.APPS_YAML_FILE_PATH)
     for app in projects_names['applications']:
         if 'snapshot' not in app:
-            app['snapshot'] = refs_txt_file[app['name']] if app['name'] in refs_txt_file else None
+            app['snapshot'] = input_refs_file[app['name']] if app['name'] in input_refs_file else None
         apps_queue.put(app)
 
     destination_path = args.destination if args.destination else constants.DEFAULT_DESTINATION_PATH
     tools_output_path = os.path.join(destination_path, 'tools')
     apps_output_path = os.path.join(destination_path, 'apps')
+    files_output_path = os.path.join(destination_path, 'files')
 
     release_tag = args.release_tag if args.release_tag else None
     atk_version = args.atk_version if args.atk_version else constants.DEFAULT_ATK_VERSION
@@ -117,10 +137,22 @@ def main():
         os.makedirs(tools_output_path)
     if not os.path.exists(apps_output_path):
         os.makedirs(apps_output_path)
+    if not os.path.exists(files_output_path):
+        os.makedirs(files_output_path)
 
     for i in range(constants.CPU_CORES_COUNT):
-        t = threading.Thread(target=build_sources)
-        t.start()
+        threads.append(threading.Thread(target=build_sources))
+        threads[i].start()
+
+    for i in range(constants.CPU_CORES_COUNT):
+        threads[i].join()
+
+    with open(os.path.join(files_output_path, 'refs.txt'), 'w') as ref_file:
+        for key, value in refs_summary.iteritems():
+            ref_file.write('{} {}\n'.format(key, value))
+
+    run_apployer_expand()
+
 
 if __name__ == '__main__':
     main()

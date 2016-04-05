@@ -24,11 +24,11 @@ from lib.logger import LOGGER
 class Builder:
 
     def __init__(self, app_info):
-        self.name = app_info['name']
-        self.snapshot = app_info['snapshot'] if 'snapshot' in app_info else None
-        self.url = app_info['url'] if 'url' in app_info else None
+        self.name = app_info.get('name')
+        self.snapshot = app_info.get('snapshot')
+        self.url = app_info.get('url')
         self.sources_path = os.path.join(PLATFORM_PARENT_PATH, self.name)
-        self.zip_name = app_info['zip_name'] + '.zip' if 'zip_name' in app_info else self.name + '.zip'
+        self.zip_name = '{}.zip'.format(app_info.get('zip_name', self.name))
         self.zip_items = app_info['items'] if 'items' in app_info else [self.sources_path]
         self.logs_directory_path = os.path.join(PLATFORM_PARENT_PATH, 'logs')
         if not os.path.exists(self.logs_directory_path):
@@ -67,6 +67,7 @@ class Builder:
                     subprocess.check_call(['git', 'checkout', self.snapshot], cwd=self.sources_path, stdout=build_log, stderr=err_log)
                 except Exception:
                     LOGGER.warning('Cannot set release tag {} for {} project sources. Using "master" branch.'.format(self.snapshot, self.name))
+            self.ref = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=self.sources_path).rstrip()
 
     def create_zip_package(self, dest_path, zip_name=None, zip_items=None):
         zip_name = zip_name if zip_name else self.zip_name
@@ -88,7 +89,15 @@ class Builder:
                 if os.path.isdir(item):
                     for root, dirs, files in os.walk(item):
                         for file in files:
-                            zip_package.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), self.sources_path))
+                            if os.path.islink(os.path.join(root, file)):
+                                link_dest = os.readlink(os.path.join(root, file))
+                                attr = zipfile.ZipInfo()
+                                attr.filename = os.path.relpath(os.path.join(root, file), self.sources_path)
+                                attr.create_system = 3 # local system code
+                                attr.external_attr = 2716663808L # symlink magic number
+                                zip_package.writestr(attr, link_dest)
+                            else:
+                                zip_package.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), self.sources_path))
                 else:
                     zip_package.write(item, os.path.relpath(item, self.sources_path))
             zip_package.close()
