@@ -92,5 +92,6 @@ RUN apt-get install -y \
   tmux \
   vim
 
-# Clone platform parent
-RUN git clone https://github.com/trustedanalytics/platform-parent.git /root/platform-parent
+# Create platform-parent and artifact output volumes
+RUN mkdir /platform-parent && mkdir /artifacts
+VOLUME /platform-parent /artifacts

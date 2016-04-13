@@ -101,7 +101,8 @@ Steps to build:
   1. Enter ```platform-parent/docker``` directory.
   1. Run following command to create docker image: ```docker build -t platform-parent .```
      (if you are behind proxy, run ```docker build --build-arg http_proxy='your_http_proxy' --build-arg https_proxy='your_https_proxy' -t platform-parent . ```).
-  1. Run docker container by executing: ```docker run -i -t platform-parent```.
-     (if you are behind proxy, run ```docker run -i -t -e http_proxy='your_http_proxy' -e https_proxy='your_https_proxy' platform-parent ```).
-  1. Enter ```/root/platform-parent``` directory and run ```python build-dependencies.py```
-     (if you are behind proxy, configure proxy settings in ```/usr/share/maven/conf/settings.xml``` file before running build-dependencies.py script, see https://maven.apache.org/guides/mini/guide-proxies.html for reference).
+  1. Run docker container by executing: ```docker run -i -t -v <platform-parent_repo_path>:/platform-parent -v <artifacts_output_path>:/artifacts platform-parent```.
+     (if you are behind proxy, run ```docker run -i -t -v <platform-parent_repo_path>:/platform-parent -v <artifacts_output_path>:/artifacts
+      -e http_proxy='your_http_proxy' -e https_proxy='your_https_proxy' platform-parent ```).
+  1. Enter ```/platform-parent``` directory and run ```python build-dependencies.py -d /artifacts```
+     (if you are behind proxy, configure proxy settings in ```/usr/share/maven/conf/settings.xml``` file before running build-dependencies.py script, see https://maven.apache.org/guides/mini/guide-proxies.html for reference). Artifacts will be stored in `/artifacts` directory on Docker container and in `<artifacts_output_path>` directory on host machine.
