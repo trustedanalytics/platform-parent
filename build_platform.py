@@ -77,7 +77,7 @@ def load_app_yaml(path):
 
 def run_apployer_expand():
     apployer_repo_path = os.path.join(constants.PLATFORM_PARENT_PATH, 'apployer')
-    subprocess.check_call(['tox', '-r'], cwd=apployer_repo_path)
+    subprocess.check_call(['tox', '-r', '--notest'], cwd=apployer_repo_path)
     subprocess.check_call([os.path.join('.tox', 'py27', 'bin', 'apployer'),
                            'expand', constants.PLATFORM_PARENT_PATH], cwd=apployer_repo_path)
     subprocess.check_call(['mv', os.path.join(apployer_repo_path, 'expanded_appstack.yml'), files_output_path], cwd=constants.PLATFORM_PARENT_PATH)

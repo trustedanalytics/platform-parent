@@ -61,8 +61,9 @@ RUN apt-get install -y \
   /bin/bash -c "source /root/.gvm/scripts/gvm && gvm install go1.4.2 && gvm use go1.4.2 && go get github.com/tools/godep" && \
   apt-get install -y gccgo-go && \
   mkdir ~/go-workspace && \
-  echo "gvm use go1.4.2" >> /root/.bashrc && \
-  echo 'export GOPATH=$HOME/go-workspace' >> /root/.bashrc
+  echo '[[ -s "/root/.gvm/scripts/gvm" ]] && source "/root/.gvm/scripts/gvm"' >> /root/.profile && \
+  echo "gvm use go1.4.2" >> /root/.bashrc && echo "gvm use go1.4.2" >> /root/.profile \
+  echo 'export GOPATH=$HOME/go-workspace' >> /root/.bashrc && echo 'export GOPATH=$HOME/go-workspace' >> /root/.profile
 
 ENV PATH $PATH:$GOPATH/bin
 
@@ -72,7 +73,7 @@ RUN \
   curl -L https://get.rvm.io | bash -s stable && \
   /bin/bash -c "source /etc/profile.d/rvm.sh && rvm install ruby-2.1.5 && rvm use 2.1.5" && \
   /bin/bash -c "source /etc/profile.d/rvm.sh && gem install compass && gem install cf-uaac" && \
-  echo "source /etc/profile.d/rvm.sh" >> /root/.bashrc
+  echo "source /etc/profile.d/rvm.sh" >> /root/.bashrc && echo "source /etc/profile.d/rvm.sh" >> /root/.profile
 
 # Set locale to en_US.UTF-8 (avoid problems with compilation of files containing non-ASCII characters)
 RUN locale-gen en_US.UTF-8 && dpkg-reconfigure locales
@@ -95,3 +96,8 @@ RUN apt-get install -y \
 # Create platform-parent and artifact output volumes
 RUN mkdir /platform-parent && mkdir /artifacts
 VOLUME /platform-parent /artifacts
+
+# Set working directory and entrypoint
+WORKDIR /platform-parent
+
+ENTRYPOINT [ "/bin/bash", "-l", "-c", "gvm use go1.4.2 && python build_platform.py -d /artifacts"]
