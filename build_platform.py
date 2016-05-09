@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 import os
+import sys
 import glob
 import shutil
 import threading
@@ -35,7 +36,11 @@ from builders.release_downloader import ReleaseDownloader
 from lib.logger import LOGGER
 
 threads = []
-LOCK = threading.Lock()
+threads_lock = threading.Lock()
+
+fails = []
+fails_lock = threading.Lock()
+
 
 def build_sources():
     builders = {
@@ -52,24 +57,31 @@ def build_sources():
     while apps_queue.empty() is not True:
         app = apps_queue.get()
         builder = builders[app['builder']](app)
-        if app['builder'] == 'release_downloader':
-            builder.download_release_zip(apps_output_path)
-        elif app['builder'] != 'atk':
-            builder.download_project_sources(snapshot=release_tag, url=os.path.join(constants.TAP_REPOS_URL, app['name']))
-            builder.build()
-            destination_zip_path = tools_output_path if app['builder'] == 'tool' else apps_output_path
-            if app['builder'] == 'universal':
-                zip_path = glob.glob('{0}/{0}*.zip'.format(app['name']))[0]
-                shutil.copy(zip_path, destination_zip_path)
+        try:
+            if app['builder'] == 'release_downloader':
+                builder.download_release_zip(apps_output_path)
+            elif app['builder'] != 'atk':
+                builder.download_project_sources(snapshot=release_tag, url=os.path.join(constants.TAP_REPOS_URL, app['name']))
+                builder.build()
+                destination_zip_path = tools_output_path if app['builder'] == 'tool' else apps_output_path
+                if app['builder'] == 'universal':
+                    zip_path = glob.glob('{0}/{0}*.zip'.format(app['name']))[0]
+                    shutil.copy(zip_path, destination_zip_path)
+                else:
+                    builder.create_zip_package(destination_zip_path)
+                threads_lock.acquire()
+                refs_summary[builder.name] = builder.ref
+                threads_lock.release()
             else:
-                builder.create_zip_package(destination_zip_path)
-            LOCK.acquire()
-            refs_summary[builder.name] = builder.ref
-            LOCK.release()
-        else:
-            builder.download_project_sources(snapshot=atk_version, url=constants.ATK_REPOS_URL)
-            builder.build()
-            builder.create_deployable_zip(apps_output_path, extra_files_paths=[os.path.join(constants.PLATFORM_PARENT_PATH, 'utils', app['name'], 'manifest.yml')])
+                builder.download_project_sources(snapshot=atk_version, url=constants.ATK_REPOS_URL)
+                builder.build()
+                builder.create_deployable_zip(apps_output_path, extra_files_paths=[os.path.join(constants.PLATFORM_PARENT_PATH, 'utils', app['name'], 'manifest.yml')])
+        except Exception as e:
+            LOGGER.error('Cannot build %s due to %s', app['name'], e)
+            fails_lock.acquire()
+            fails.append(app['name'])
+            fails_lock.release()
+
 
 def load_app_yaml(path):
     with open(path, 'r') as stream:
@@ -151,7 +163,13 @@ def main():
         for key, value in refs_summary.iteritems():
             ref_file.write('{} {}\n'.format(key, value))
 
-    run_apployer_expand()
+    if fails:
+        LOGGER.error('Cannot build platform packages!')
+        for app_name in fails:
+            LOGGER.error('%s project failed.', app_name)
+        sys.exit(1)
+    else:
+        run_apployer_expand()
 
 
 if __name__ == '__main__':
