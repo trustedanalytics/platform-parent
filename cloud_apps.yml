@@ -8,89 +8,102 @@ applications:
 #   - file_1
 #   - catalog_1/
 #   snapshot: <branch|commit|tag> | Building determined version of sources (Optional)
-#   url: <url> | Specified sources address (Optional)
+#   url: <url> | Specified sources address (If you use release_downloader as builder, you have to specify 'url')
 #   zip_name: <name> | name of zip package without extension, for instance 'wssb' (Optional)
 #
 
+# waiting for pack.sh
+#- name: auth-gateway
+#  builder: universal
+# waiting for pack.sh
+#- name: auth-proxy
+#  builder: universal
+- name: app-dependency-discoverer
+  builder: go
 - name: application-broker
   builder: go
-- name: worlds-simplest-service-broker
-  builder: wssb
-  url: https://github.com/trustedanalytics/worlds-simplest-service-broker
-  zip_name: wssb
+- name: gearpump-broker
+  builder: gearpump
+- name: hdfs-broker
+  builder: java
+- name: hbase-broker
+  builder: java
+- name: zookeeper-broker
+  builder: java
+- name: yarn-broker
+  builder: java
+- name: hive-broker
+  builder: java
+# waiting for pack.sh and publishing sources
+#- name: kubernetes-broker
+#  builder: universal
+- name: gateway
+  builder: go
+- name: atk
+  builder: atk
+  tar_name: trustedanalytics.tar.gz
+- name: se
+  builder: atk
+  zip_name: se
+  tar_name: trustedanalytics-scoring.tar.gz
 - name: metrics-provider
+  builder: java
+- name: uploader
   builder: java
 - name: latest-events-service
   builder: java
 - name: console
   builder: console
-- name: service-catalog
+- name: downloader
   builder: java
-- name: service-exposer
+- name: data-acquisition
   builder: java
-- name: app-launcher-helper
-  builder: go
-- name: user-management
-  builder: java
-- name: platform-operations
-  builder: java
-- name: model-catalog
-  builder: java
-- name: platform-context
-  builder: java
-- name: gateway
-  builder: go
 - name: data-catalog
   builder: universal
 - name: dataset-publisher
   builder: java
 - name: router-metrics-provider
   builder: java
-- name: data-acquisition
+- name: service-catalog
   builder: java
-- name: hbase-broker
+- name: service-exposer
   builder: java
-- name: yarn-broker
-  builder: java
-- name: downloader
-  builder: java
-- name: uploader
-  builder: java
+- name: app-launcher-helper
+  builder: go
 - name: metadata-parser
   builder: java
-- name: zookeeper-broker
+- name: workflow-scheduler
   builder: java
-- name: hdfs-broker
+- name: user-management
   builder: java
-- name: h2o-broker
+- name: platform-operations
   builder: java
-- name: gearpump-broker
-  builder: gearpump
-- name: se
-  builder: atk
-  zip_name: se
-  tar_name: trustedanalytics-scoring.tar.gz
-- name: atk
-  builder: atk
-  tar_name: trustedanalytics.tar.gz
+- name: model-catalog
+  builder: java
+- name: platform-snapshot
+  builder: java
+- name: platform-context
+  builder: java
+- name: platform-tests
+  builder: universal
+# waiting for publishing sources
+#- name: demiurge
+#  builder: release_downloader
+#  url: https://github.com/trustedanalytics/demiurge/archive/master.zip
+- name: h2o-scoring-engine-publisher
+  builder: java
+- name: worlds-simplest-service-broker
+  builder: wssb
+  url: https://github.com/trustedanalytics/worlds-simplest-service-broker
+  zip_name: wssb
+# waiting for DPNG-7072
+#- name: h2o-broker
+#  builder: java
 - name: tap-java-buildpack
   builder: release_downloader
+  url: https://github.com/trustedanalytics/tap-java-buildpack/releases/download/v3.4-7/tap-java-buildpack-v3.4-7.zip
   snapshot: v3.4-7
-- name: terraform-aws-intel
-  builder: tool
-- name: terraform-openstack-intel
-  builder: tool
 - name: platform-ansible
   builder: tool
-- name: cf-boshworkspace
-  builder: tool
-- name: docker-services-boshworkspace
-  builder: tool
-- name: logsearch-workspace
-  builder: tool
 - name: apployer
-  builder: tool
-- name: platform-appstack
-  builder: tool
-- name: cloudfoundry-mkappstack
   builder: tool

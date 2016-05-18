@@ -36,14 +36,15 @@ class ReleaseDownloader:
         self.err_log_path = os.path.join(self.logs_directory_path, self.name + '-err.log')
 
     def download_release_zip(self, dest_path):
-        self.url = self.url if self.url else \
-            TAP_REPOS_URL + 'tap-java-buildpack/releases/download/{version}/tap-java-buildpack-{version}.zip'.format(version=self.snapshot)
-        LOGGER.info('Downloading release package for {} in version {}'.format(self.name, self.snapshot))
+        if not self.url:
+            LOGGER.error('Not specified release url for %s', self.name)
+            raise 'Not specified release url for {}'.format(self.name)
+        LOGGER.info('Downloading release package for %s from %s', self.name, self.snapshot)
         with open(self.build_log_path, 'a') as build_log, \
                 open(self.err_log_path, 'a') as err_log:
             try:
                 subprocess.check_call(['wget', self.url, '-P', dest_path], stdout=build_log, stderr=err_log)
             except Exception as e:
-                LOGGER.error('Cannot download release package for {} project'.format(self.name))
+                LOGGER.error('Cannot download release package for %s project', self.name)
                 raise e
-        LOGGER.info('Release package in version {} has been downloaded for {} project'.format(self.snapshot, self.name))
+        LOGGER.info('Release package in version %s has been downloaded for %s project', self.snapshot, self.name)
