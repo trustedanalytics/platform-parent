@@ -4,7 +4,7 @@ Project for building all platform components.
 # Steps to build:
 
  1. Make sure that repositories locations from the config file are set in you settings.xml file.
- 1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki/wiki/Development-Environment-Setup) page.
+ 1. Before next step make sure that you installed all required components mentioned on the [Development Environment Setup](https://github.com/trustedanalytics/platform-wiki-0.7/wiki/Development-Environment-Setup) page.
  1. Clone platform-parent project to your local machine.
  1. Install pyyaml running command ```sudo pip install pyyaml```.
  1. Run script using ```python build_platform.py``` in platform-parent directory.
