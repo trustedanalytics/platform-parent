@@ -38,7 +38,8 @@ RUN apt-get install -y \
   python=2.7.9-1 \
   python-dev=2.7.9-1 \
   python-setuptools=5.5.1-1 \
-  python-pip=1.5.6-5
+  python-pip=1.5.6-5 \
+  python3-pip=1.5.6-5
 
 # pip packages
 RUN pip install \
