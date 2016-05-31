@@ -12,12 +12,10 @@ applications:
 #   zip_name: <name> | name of zip package without extension, for instance 'wssb' (Optional)
 #
 
-# waiting for pack.sh
-#- name: auth-gateway
-#  builder: universal
-# waiting for pack.sh
-#- name: auth-proxy
-#  builder: universal
+- name: auth-gateway
+  builder: universal
+- name: auth-proxy
+  builder: universal
 - name: app-dependency-discoverer
   builder: go
 - name: application-broker
@@ -34,9 +32,8 @@ applications:
   builder: java
 - name: hive-broker
   builder: java
-# waiting for pack.sh and publishing sources
-#- name: kubernetes-broker
-#  builder: universal
+- name: kubernetes-broker
+  builder: universal
 - name: gateway
   builder: go
 - name: atk
@@ -86,10 +83,9 @@ applications:
   builder: java
 - name: platform-tests
   builder: universal
-# waiting for publishing sources
-#- name: demiurge
-#  builder: release_downloader
-#  url: https://github.com/trustedanalytics/demiurge/archive/master.zip
+- name: demiurge
+  builder: release_downloader
+  url: https://github.com/trustedanalytics/demiurge/archive/master.zip
 - name: h2o-scoring-engine-publisher
   builder: java
 - name: worlds-simplest-service-broker
