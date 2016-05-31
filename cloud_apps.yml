@@ -86,15 +86,10 @@ applications:
 - name: demiurge
   builder: release_downloader
   url: https://github.com/trustedanalytics/demiurge/archive/master.zip
-- name: h2o-scoring-engine-publisher
-  builder: java
 - name: worlds-simplest-service-broker
   builder: wssb
   url: https://github.com/trustedanalytics/worlds-simplest-service-broker
   zip_name: wssb
-# waiting for DPNG-7072
-#- name: h2o-broker
-#  builder: java
 - name: tap-java-buildpack
   builder: release_downloader
   url: https://github.com/trustedanalytics/tap-java-buildpack/releases/download/v3.4-7/tap-java-buildpack-v3.4-7.zip
