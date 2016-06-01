@@ -3,7 +3,7 @@ applications:
 # example:
 #
 # - name: <app_name> | Projects name using on Github, zip will be created with this name;
-#   builder: <go|java|wssb|console|python|tool|universal|atk|release_downloader> | Kind of builder
+#   builder: <go|tool|universal|atk|release_downloader> | Kind of builder
 #   items: | Elements from projects catalog which should be added to the zip
 #   - file_1
 #   - catalog_1/
@@ -17,25 +17,25 @@ applications:
 - name: auth-proxy
   builder: universal
 - name: app-dependency-discoverer
-  builder: go
+  builder: universal
 - name: application-broker
-  builder: go
+  builder: universal
 - name: gearpump-broker
-  builder: gearpump
+  builder: universal
 - name: hdfs-broker
-  builder: java
+  builder: universal
 - name: hbase-broker
-  builder: java
+  builder: universal
 - name: zookeeper-broker
-  builder: java
+  builder: universal
 - name: yarn-broker
-  builder: java
+  builder: universal
 - name: hive-broker
-  builder: java
+  builder: universal
 - name: kubernetes-broker
   builder: universal
 - name: gateway
-  builder: go
+  builder: universal
 - name: atk
   builder: atk
   tar_name: trustedanalytics.tar.gz
@@ -44,52 +44,57 @@ applications:
   zip_name: se
   tar_name: trustedanalytics-scoring.tar.gz
 - name: metrics-provider
-  builder: java
+  builder: universal
 - name: uploader
-  builder: java
+  builder: universal
 - name: latest-events-service
-  builder: java
+  builder: universal
 - name: console
-  builder: console
+  builder: universal
 - name: downloader
-  builder: java
+  builder: universal
 - name: data-acquisition
-  builder: java
+  builder: universal
 - name: data-catalog
   builder: universal
 - name: dataset-publisher
-  builder: java
+  builder: universal
 - name: router-metrics-provider
-  builder: java
+  builder: universal
 - name: service-catalog
-  builder: java
+  builder: universal
 - name: service-exposer
-  builder: java
+  builder: universal
 - name: app-launcher-helper
-  builder: go
+  builder: universal
 - name: metadata-parser
-  builder: java
+  builder: universal
 - name: workflow-scheduler
-  builder: java
+  builder: universal
 - name: user-management
-  builder: java
+  builder: universal
 - name: platform-operations
-  builder: java
+  builder: universal
 - name: model-catalog
-  builder: java
+  builder: universal
 - name: platform-snapshot
-  builder: java
+  builder: universal
 - name: platform-context
-  builder: java
+  builder: universal
 - name: platform-tests
   builder: universal
 - name: demiurge
   builder: release_downloader
   url: https://github.com/trustedanalytics/demiurge/archive/master.zip
+- name: h2o-scoring-engine-publisher
+  builder: universal
 - name: worlds-simplest-service-broker
-  builder: wssb
+  builder: go
   url: https://github.com/trustedanalytics/worlds-simplest-service-broker
-  zip_name: wssb
+  zip_name: go
+# waiting for DPNG-7072 resolution
+#- name: h2o-broker
+#  builder: universal
 - name: tap-java-buildpack
   builder: release_downloader
   url: https://github.com/trustedanalytics/tap-java-buildpack/releases/download/v3.4-7/tap-java-buildpack-v3.4-7.zip

@@ -25,13 +25,9 @@ import subprocess
 import builders.constants as constants
 
 from Queue import Queue
-from builders.java_builder import JavaBuilder
 from builders.go_builder import GoBuilder
-from builders.wssb_builder import WssbBuilder
 from builders.tool_builder import ToolBuilder
 from builders.universal_builder import UniversalBuilder
-from builders.console_builder import ConsoleBuilder
-from builders.gearpumpbroker_builder import GearpumpBrokerBuilder
 from builders.atk_builder import AtkBuilder
 from builders.release_downloader import ReleaseDownloader
 from lib.logger import LOGGER
@@ -46,12 +42,8 @@ fails_lock = threading.Lock()
 def build_sources():
     builders = {
         'go': GoBuilder,
-        'wssb': WssbBuilder,
         'tool': ToolBuilder,
         'universal': UniversalBuilder,
-        'java': JavaBuilder,
-        'console': ConsoleBuilder,
-        'gearpump': GearpumpBrokerBuilder,
         'atk': AtkBuilder,
         'release_downloader': ReleaseDownloader
     }

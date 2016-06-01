@@ -26,7 +26,7 @@ class UniversalBuilder(Builder):
         with open(self.build_log_path, 'a') as build_log, \
                 open(self.err_log_path, 'a') as err_log:
             try:
-                subprocess.check_call('./pack.sh', cwd=self.sources_path,
+                subprocess.check_call(['sh', 'pack.sh'], cwd=self.sources_path,
                                       stdout=build_log, stderr=err_log)
             except Exception as e:
                 LOGGER.error('Cannot build {} project'.format(self.name))
