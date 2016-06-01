@@ -44,6 +44,10 @@ EOF
   
 }
 
+echo_run_usage() {
+  echo "Usage: build_tap.sh run PLATFORM_PARENT_PATH ARTIFACTS_OUTPUT_PATH [platform-parent arguments]."
+}
+
 # Exit immediately on any error.
 set -e
 
@@ -134,12 +138,12 @@ if [ "$COMMAND" = "run" ]; then
   ARTIFACTS_OUTPUT_PATH=$3
   
   if [[ -z "$2" ]] || [[ "$2" = "-h" ]] || [[ "$2" = "--help" ]]; then
-    echo "Usage: build_tap.sh run PLATFORM_PARENT_PATH ARTIFACTS_OUTPUT_PATH"
+    echo_run_usage
     exit 1
   fi
 
   if [[ -z "$PLATFORM_PARENT_PATH" ]] || [[ -z "$ARTIFACTS_OUTPUT_PATH" ]]; then
-    echo "Usage: build_tap.sh run PLATFORM_PARENT_PATH ARTIFACTS_OUTPUT_PATH"
+    echo_run_usage
     exit 1
   fi
 
@@ -153,9 +157,9 @@ if [ "$COMMAND" = "run" ]; then
     exit 1
   fi
 
-  echo "Running docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent"  
+  echo "Running docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent ${@:4}"
   
-  docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent
+  docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent "${@:4}"
 
   exit 0
 fi
