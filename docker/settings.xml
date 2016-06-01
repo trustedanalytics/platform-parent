@@ -9,16 +9,30 @@
           <url>http://repo1.maven.org/maven2/</url>
           <snapshots>
             <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
           </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
         </repository> 
         <repository>
           <id>cloudera</id>
           <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+          <snapshots>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
         </repository>
         <repository>
           <snapshots>
             <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
           </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
           <id>central</id>
           <name>libs-release-remote</name>
           <url>http://repo.spring.io/libs-release-remote</url>
@@ -26,13 +40,22 @@
         <repository>
           <snapshots>
             <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
           </snapshots>
+         <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
           <id>local central</id>
           <name>libs-release-local</name>
           <url>http://repo.spring.io/libs-release-local</url>
         </repository>
         <repository>
-          <snapshots />
+          <snapshots>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
           <id>snapshots</id>
           <name>libs-snapshot-remote</name>
           <url>http://repo.spring.io/libs-snapshot-remote</url>
@@ -42,13 +65,22 @@
         <pluginRepository>
           <snapshots>
             <enabled>false</enabled>
+            <updatePolicy>always</updatePolicy>
           </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
           <id>central</id>
           <name>plugins-release</name>
           <url>http://repo.spring.io/plugins-release</url>
         </pluginRepository>
         <pluginRepository>
-          <snapshots />
+          <snapshots>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <releases>
+            <updatePolicy>always</updatePolicy>
+          </releases>
           <id>snapshots</id>
           <name>plugins-snapshot</name>
           <url>http://repo.spring.io/plugins-snapshot</url>
