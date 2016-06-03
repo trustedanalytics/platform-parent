@@ -87,11 +87,11 @@ afcturl = $(artifact_pfx)/$(appname).zip
 ```
 
 # Tips
-  1. ```python build_platform -r <path_to_refs_txt>``` Setting path for refs.txt file (specified versions of all projects).
-  1. ```python build_platform -s <project_name>:<id>``` You can build specified version of project. As ID you can provide commit ID or branch/release name.
-  1. ```python build_platform -d <path>``` Determines destination path.
-  1. ```python build_platform -t <tag>``` Determines release tag for TAP repositories (-s argument has higher priority.
-  1. ```python build_platform -a <version>``` Determines ATK components version.
+  1. ```python build_platform -r / --refs-txt <path_to_refs_txt>``` Setting path for refs.txt file (specified versions of all projects).
+  1. ```python build_platform -s / --spec-version <project_name>:<id>``` You can build specified version of project. As ID you can provide commit ID or branch/release name.
+  1. ```python build_platform -d / --destination <path>``` Determines destination path.
+  1. ```python build_platform -t / --release-tag <tag>``` Determines release tag for TAP repositories (-s argument has higher priority.
+  1. ```python build_platform -a / --atk-version <version>``` Determines ATK components version.
 
 # Building from docker container:
 
@@ -100,4 +100,6 @@ Latest version of Docker can be installed on Linux by following instructions pro
 Steps to build:
   1. Enter ```platform-parent/docker``` directory.
   1. Run following command to create docker image: ```./build_tap.sh build```
-  1. Run docker container by executing: ```./build_tap.sh run PLATFORM_PARENT_PATH ARTIFACTS_OUTPUT_PATH```. Artifacts will be stored in `/artifacts` directory on Docker container and in `ARTIFACTS_OUTPUT_PATH` directory on host machine.
+  1. Run docker container by executing: ```./build_tap.sh run PLATFORM_PARENT_PATH ARTIFACTS_OUTPUT_PATH <platform-parent-options>```. Artifacts will be stored in `/artifacts` directory on Docker container and in `ARTIFACTS_OUTPUT_PATH` directory on host machine.
+
+  PLATFORM-PARENT-OPTIONS should be in OPTION=VALUE form, for example: --release-tag=v0.7

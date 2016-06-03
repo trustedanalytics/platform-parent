@@ -95,5 +95,3 @@ VOLUME /platform-parent /artifacts
 
 # Set working directory and entrypoint
 WORKDIR /platform-parent
-ENTRYPOINT [ "python", "build_platform.py"]
-CMD ["-d /artifacts"]

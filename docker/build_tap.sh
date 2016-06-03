@@ -157,9 +157,9 @@ if [ "$COMMAND" = "run" ]; then
     exit 1
   fi
 
-  echo "Running docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent ${@:4}"
+  echo "Running docker run -i -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts -t platform-parent /bin/bash -l -c \"gvm use go1.4.2; python build_platform.py -d /artifacts ${@:4}\""
   
-  docker run -i -t -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent "${@:4}"
+  docker run -i -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts -t platform-parent /bin/bash -l -c "gvm use go1.4.2; python build_platform.py -d /artifacts ${@:4}"
 
   exit 0
 fi
