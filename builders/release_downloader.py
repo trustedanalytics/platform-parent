@@ -39,11 +39,11 @@ class ReleaseDownloader:
         if not self.url:
             LOGGER.error('Not specified release url for %s', self.name)
             raise 'Not specified release url for {}'.format(self.name)
-        LOGGER.info('Downloading release package for %s from %s', self.name, self.snapshot)
+        LOGGER.info('Downloading release package for %s from %s', self.name, self.url)
         with open(self.build_log_path, 'a') as build_log, \
                 open(self.err_log_path, 'a') as err_log:
             try:
-                subprocess.check_call(['wget', self.url, '-P', dest_path], stdout=build_log, stderr=err_log)
+                subprocess.check_call(['wget', '-O', os.path.join(dest_path, '{}.zip'.format(self.name)), self.url], stdout=build_log, stderr=err_log)
             except Exception as e:
                 LOGGER.error('Cannot download release package for %s project', self.name)
                 raise e
