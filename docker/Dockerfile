@@ -95,4 +95,3 @@ VOLUME /platform-parent /artifacts
 
 # Set working directory and entrypoint
 WORKDIR /platform-parent
-ENTRYPOINT [ "/bin/bash", "-l", "-c", "gvm use go1.4.2 && python build_platform.py -d /artifacts"]
