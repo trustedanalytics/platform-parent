@@ -57,20 +57,18 @@ RUN apt-get install -y git=1:2.1.4-2.1+deb8u2 && git config --global url."https:
 RUN apt-get install -y libffi-dev=3.1-2+b2
 
 # GO
-RUN apt-get install -y \
-    bison=2:3.0.2.dfsg-2 \
-    curl=7.38.0-4+deb8u3 && \
-  curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash && \
-  /bin/bash -c "source /root/.gvm/scripts/gvm && gvm install go1.4.2 && gvm use go1.4.2 && go get github.com/tools/godep" && \
+RUN wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz -O golang.tar.gz && \
+  tar -xvf golang.tar.gz -C /usr/local && \
   mkdir ~/go-workspace && \
-  echo '[[ -s "/root/.gvm/scripts/gvm" ]] && source "/root/.gvm/scripts/gvm"' >> /root/.profile && \
-  echo "gvm use go1.4.2" >> /root/.bashrc && echo "gvm use go1.4.2" >> /root/.profile \
   echo 'export GOPATH=$HOME/go-workspace' >> /root/.bashrc && echo 'export GOPATH=$HOME/go-workspace' >> /root/.profile
 
-ENV PATH $PATH:$GOPATH/bin
+ENV PATH=/usr/local/go/bin:$HOME/go-workspace/bin:$PATH
+ENV GOPATH=$HOME/go-workspace
+
+RUN /bin/bash -c "go get github.com/tools/godep"
 
 # Ruby
-RUN \
+RUN apt-get install -y curl=7.38.0-4+deb8u3 && \
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
   curl -L https://get.rvm.io | bash -s stable && \
   /bin/bash -c "source /etc/profile.d/rvm.sh && rvm install ruby-2.1.5 && rvm use 2.1.5" && \
