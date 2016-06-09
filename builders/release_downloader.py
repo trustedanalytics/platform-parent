@@ -47,4 +47,4 @@ class ReleaseDownloader:
             except Exception as e:
                 LOGGER.error('Cannot download release package for %s project', self.name)
                 raise e
-        LOGGER.info('Release package in version %s has been downloaded for %s project', self.snapshot, self.name)
+        LOGGER.info('Release package has been downloaded for %s project', self.name)
