@@ -159,7 +159,7 @@ if [ "$COMMAND" = "run" ]; then
 
   echo "Running docker run -i -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts -t platform-parent python build_platform.py -d /artifacts ${@:4}"
   
-  docker run -i -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent python build_platform.py -d /artifacts ${@:4}
+  docker run -i -v $PLATFORM_PARENT_PATH:/platform-parent -v $ARTIFACTS_OUTPUT_PATH:/artifacts platform-parent /bin/bash -ic "python build_platform.py -d /artifacts ${@:4}"
 
   exit 0
 fi
