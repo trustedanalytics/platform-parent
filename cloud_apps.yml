@@ -84,8 +84,7 @@ applications:
 - name: platform-tests
   builder: universal
 - name: demiurge
-  builder: release_downloader
-  url: https://github.com/trustedanalytics/demiurge/archive/v0.7.zip
+  builder: source_downloader
 - name: worlds-simplest-service-broker
   builder: go
   url: https://github.com/trustedanalytics/worlds-simplest-service-broker

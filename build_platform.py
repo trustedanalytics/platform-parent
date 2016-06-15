@@ -25,6 +25,7 @@ import subprocess
 import builders.constants as constants
 
 from Queue import Queue
+from builders.builder import Builder
 from builders.go_builder import GoBuilder
 from builders.tool_builder import ToolBuilder
 from builders.universal_builder import UniversalBuilder
@@ -41,6 +42,7 @@ fails_lock = threading.Lock()
 
 def build_sources():
     builders = {
+        'source_downloader': Builder,
         'go': GoBuilder,
         'tool': ToolBuilder,
         'universal': UniversalBuilder,
